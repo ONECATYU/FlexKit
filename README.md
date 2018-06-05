@@ -13,36 +13,36 @@ FlexBox Layout, 支持链式调用，虚拟view.<br/>
         let bottomRightView = ...
         
         self.view.makeLayout { (make) in
-            make.justifyContent(.center);
+            make.justifyContent(.center)
             make.addChild(container, withMakeLayout: { (make) in
-                make.flexDirection(.row).padding(12);
+                make.flexDirection(.row).padding(12)
                 make.addChild(leftView)
                     .aspectRatio(1)
-                    .width(120);
+                    .width(120)
                 
                 make.addChild(nil, withMakeLayout: { (make) in
                     make.flexGrow(1)
                         .flexShrink(1)
                         .justifyContent(.spaceBetween)
-                        .paddingLeft(12);
+                        .paddingLeft(12)
                     
                     make.addChild(nil, withMakeLayout: { (make) in
-                        make.addChild(titleLabel);
-                        make.addChild(descLabel).top(6);
+                        make.addChild(titleLabel)
+                        make.addChild(descLabel).top(6)
                     })
                     
                     make.addChild(nil, withMakeLayout: { (make) in
                         make.flexDirection(.row)
-                            .justifyContent(.spaceBetween);
+                            .justifyContent(.spaceBetween)
                         
                         make.addChild(bottomLelftView)
                             .width(80)
                             .height(20)
-                            .alignSelf(.flexEnd);
+                            .alignSelf(.flexEnd)
                         
                         make.addChild(bottomRightView)
                             .height(30)
-                            .aspectRatio(1);
+                            .aspectRatio(1)
                     })
                 })
             })
