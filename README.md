@@ -1,5 +1,5 @@
 # FlexKit
-FlexBox Layout, 支持链式调用，虚拟view.<br/>
+在YogaKit基础上，增加链式调用，虚拟div.<br/>
 # 使用     
 <img src='https://github.com/ONECATYU/FlexKit/blob/master/Images/screen-shot.png'/>   
 
