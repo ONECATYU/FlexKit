@@ -1,6 +1,8 @@
 # FlexKit
 FlexBox Layout, 支持链式调用，虚拟view.<br/>
-# 使用    
+# 使用     
+<img src='https://github.com/ONECATYU/FlexKit/blob/master/Images/screen-shot.png'/>   
+
 ```swift
         let container = ...
         let leftView = ...
