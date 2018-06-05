@@ -1,0 +1,23 @@
+PODS:
+  - FlexKit (0.0.1):
+    - Yoga (~> 1.8.1)
+  - Yoga (1.8.1)
+
+DEPENDENCIES:
+  - FlexKit (from `../FlexKit.podspec`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Yoga
+
+EXTERNAL SOURCES:
+  FlexKit:
+    :path: "../FlexKit.podspec"
+
+SPEC CHECKSUMS:
+  FlexKit: 4924ac382ea8ff19e1c14df214114897703fb24a
+  Yoga: e6f1fed82138c17da5332e15e5770abf0e9cc386
+
+PODFILE CHECKSUM: e99ed6a4891cc3287671b4ecc145efc69199fcde
+
+COCOAPODS: 1.5.3
