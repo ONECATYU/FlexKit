@@ -13,13 +13,20 @@
 @interface YGLayoutDiv ()
 @property (nonatomic, strong) NSMutableArray<YGLayoutDiv *> *childrenArray;
 @property (nonatomic, weak) YGLayoutDiv *parentDiv;
+@property (nonatomic, weak) UIView *superView;
 @end
 
 @implementation YGLayoutDiv
 
 @synthesize yoga = _yoga;
-@synthesize bindingView = _bindingView;
 @synthesize superView = _superView;
+
+- (instancetype)initWithView:(UIView *)view {
+    if (self = [super init]) {
+        _view = view;
+    }
+    return self;
+}
 
 - (YGLayout *)yoga {
     if (!_yoga) {
@@ -47,13 +54,13 @@
 }
 
 - (CGRect)frame {
-    if (!self.bindingView || self.parent) return _frame;
+    if (!self.view || self.parent) return _frame;
     if ([[NSThread currentThread] isMainThread]) {
-        return self.bindingView.frame;
+        return self.view.frame;
     } else {
         __block CGRect rect = _frame;
         dispatch_sync(dispatch_get_main_queue(), ^{
-            rect = self.bindingView.frame;
+            rect = self.view.frame;
         });
         return rect;
     }
@@ -66,6 +73,7 @@
     if ([self.childrenArray containsObject:child]) return;
     child.parentDiv = self;
     [self.childrenArray addObject:child];
+    YGAddChildrenViewsToSuperViewHierarchy(self, child);
 }
 
 - (void)addChildren:(NSArray<YGLayoutDiv *> *)children {
@@ -79,26 +87,13 @@
     if (!child) return;
     if ([self.childrenArray containsObject:child]) return;
     [self.childrenArray removeObject:child];
+    if (child.view) {
+        [child.view removeFromSuperview];
+    }
 }
 
 - (void)removeFromParent {
     [self.parent removeChild:self];
-}
-
-- (void)bindingView:(UIView *)view {
-    _bindingView = view;
-}
-
-- (void)addChildrenBindingViewToSuperView {
-    UIView *superView = self.bindingView;
-    if (!superView) superView = self.superView;
-    for (NSInteger i = 0; i < self.children.count; i++) {
-        YGLayoutDiv *child = self.children[i];
-        if (child.bindingView && !child.bindingView.superview) {
-            [superView addSubview:child.bindingView];
-        }
-        [child addChildrenBindingViewToSuperView];
-    }
 }
 
 - (YGLayoutMaker *)makeLayout:(YGMakeLayoutBlock)block {
@@ -114,12 +109,24 @@
     return _superView;
 }
 
-static UIView *YGGetSuperViewOfLayoutDivHierarchy(YGLayoutDiv *div) {
+static inline UIView *YGGetSuperViewOfLayoutDivHierarchy(YGLayoutDiv *div) {
     if (!div) return nil;
-    if (div.bindingView.superview)  return div.bindingView.superview;
     YGLayoutDiv *parent = div.parent;
-    if (parent.bindingView) return parent.bindingView;
+    if (parent.view) return parent.view;
     return YGGetSuperViewOfLayoutDivHierarchy(parent);
+}
+
+static inline void YGAddChildrenViewsToSuperViewHierarchy(YGLayoutDiv *div, YGLayoutDiv *child) {
+    UIView *container = div.view? :div.superView;
+    child.superView = container;
+    if (child.view) {
+        [child.view removeFromSuperview];
+        [child.superView addSubview:child.view];
+    } else {
+        for (int i = 0; i < child.children.count; i++) {
+            YGAddChildrenViewsToSuperViewHierarchy(child, child.children[i]);
+        }
+    }
 }
 
 #pragma mark YGLayoutDivProtocol

@@ -299,15 +299,15 @@ static YGSize YGMeasureView(
     
     YGLayoutDiv *div = (__bridge YGLayoutDiv *) YGNodeGetContext(node);
     __block CGSize sizeThatFits = div.frame.size;
-    if (div.bindingView) {
+    if (div.view) {
         if ([[NSThread currentThread] isMainThread]) {
-            sizeThatFits = [div.bindingView sizeThatFits:(CGSize) {
+            sizeThatFits = [div.view sizeThatFits:(CGSize) {
                 .width = constrainedWidth,
                 .height = constrainedHeight,
             }];
         } else {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                sizeThatFits = [div.bindingView sizeThatFits:(CGSize) {
+                sizeThatFits = [div.view sizeThatFits:(CGSize) {
                     .width = constrainedWidth,
                     .height = constrainedHeight,
                 }];
@@ -438,17 +438,17 @@ static void YGApplyLayoutToViewHierarchy(YGLayoutDiv *div, BOOL preserveOrigin)
     };
     
     YGLayoutDiv *parent = div.parent;
-    if (!parent.bindingView) {
+    if (!parent.view) {
         frame.origin.x += parent.frame.origin.x;
         frame.origin.y += parent.frame.origin.y;
     }
     
-    if (parent && div.bindingView) {
+    if (parent && div.view) {
         if ([[NSThread currentThread] isMainThread]) {
-            div.bindingView.frame = frame;
+            div.view.frame = frame;
         } else {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                div.bindingView.frame = frame;
+                div.view.frame = frame;
             });
         }
     }

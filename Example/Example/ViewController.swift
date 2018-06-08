@@ -58,8 +58,6 @@ class ViewController: UIViewController {
             })
         }
         
-        self.view.layoutDiv.addChildrenBindingViewToSuperView()
-        
         titleLabel.text = "你好我是标题,下面是我的内容简介,↓↓↓";
         descLabel.text = "你好我是简介,上面是我的标题";
     }

@@ -106,9 +106,4 @@ YG_MAKER_PROPERTY_REALIZE_SWIFT(CGFloat, aspectRatio)
     return self;
 }
 
-- (YGLayoutMaker *)binding:(UIView *)view {
-    [self.yoga.view bindingView:view];
-    return self;
-}
-
 @end

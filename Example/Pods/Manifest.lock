@@ -1,5 +1,5 @@
 PODS:
-  - FlexKit (0.0.1):
+  - FlexKit (0.0.2):
     - Yoga (~> 1.8.1)
   - Yoga (1.8.1)
 
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../FlexKit.podspec"
 
 SPEC CHECKSUMS:
-  FlexKit: 4924ac382ea8ff19e1c14df214114897703fb24a
+  FlexKit: d6481ffddf3a07eef155452ef15bbab29d73bff6
   Yoga: e6f1fed82138c17da5332e15e5770abf0e9cc386
 
 PODFILE CHECKSUM: e99ed6a4891cc3287671b4ecc145efc69199fcde

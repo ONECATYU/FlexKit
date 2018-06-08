@@ -134,13 +134,6 @@ YG_MAKER_PROPERTY_REALIZE(CGFloat, aspectRatio);
     };
 }
 
-- (YGLayoutMaker *(^)(UIView *view))binding {
-    return ^(UIView *view) {
-        [self.yoga.view bindingView:view];
-        return self;
-    };
-}
-
 - (YGLayoutDiv *)addChild:(id<YGLayoutDivProtocol>)child withMakeLayout:(YGMakeLayoutBlock)block {
     if (!child) child = [[YGLayoutDiv alloc]init];
     [self.yoga.view addChild:child.layoutDiv];

@@ -32,8 +32,9 @@ typedef void(^YGMakeLayoutBlock)(YGLayoutMaker *make);
 
 @property (nonatomic, assign) CGRect frame;
 
-@property (nullable, nonatomic, readonly, weak) UIView *bindingView;
-@property (nullable, nonatomic, readonly, weak) UIView *superView;
+@property (nullable, nonatomic, readonly, weak) UIView *view;
+
+- (instancetype)initWithView:(UIView *)view;
 
 - (void)addChild:(YGLayoutDiv *)child;
 - (void)addChildren:(NSArray<YGLayoutDiv *> *)children;
@@ -41,11 +42,8 @@ typedef void(^YGMakeLayoutBlock)(YGLayoutMaker *make);
 - (void)removeChild:(YGLayoutDiv *)child;
 - (void)removeFromParent;
 
-- (void)bindingView:(UIView *)view;
-
 - (YGLayoutMaker *)makeLayout:(YGMakeLayoutBlock)block;
 
-- (void)addChildrenBindingViewToSuperView;
 
 @end
 

@@ -86,8 +86,6 @@ YG_MAKER_PROPERTY_SWIFT(CGFloat, aspectRatio);
 - (YGLayoutMaker *)removeChild:(id<YGLayoutDivProtocol>)child;
 - (YGLayoutMaker *)removeFromParent;
 
-- (YGLayoutMaker *)binding:(UIView *)view;
-
 @end
 
 NS_ASSUME_NONNULL_END

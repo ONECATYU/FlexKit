@@ -102,9 +102,6 @@ NS_SWIFT_UNAVAILABLE("Use the extensions instead");
 - (YGLayoutMaker *(^)(void))removeFromParent
 NS_SWIFT_UNAVAILABLE("Use the extensions instead");
 
-- (YGLayoutMaker *(^)(UIView *view))binding
-NS_SWIFT_UNAVAILABLE("Use the extensions instead");
-
 - (YGLayoutDiv *)addChild:(nullable id<YGLayoutDivProtocol>)child withMakeLayout:(YGMakeLayoutBlock)block;
 - (YGLayoutDiv *)addChildWithMakeLayout:(YGMakeLayoutBlock)block;
 
