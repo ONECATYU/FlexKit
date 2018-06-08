@@ -48,6 +48,5 @@
             })
         }
         
-        self.view.layoutDiv.addChildrenBindingViewToSuperView()
 ```
 
