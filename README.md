@@ -48,5 +48,7 @@
             })
         }
         
-```
+```    
+# 配合UITableView+FDTemplateLayoutCell使用     
+参照demo
 
