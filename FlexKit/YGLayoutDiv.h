@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+#define FK_MAIN_QUEUE_EXEC(...) \
+if ([[NSThread currentThread] isMainThread])  \
+__VA_ARGS__ \
+else { \
+dispatch_sync(dispatch_get_main_queue(), ^ \
+__VA_ARGS__ \
+); \
+}
+
 @class YGLayout, YGLayoutMaker, YGLayoutDiv;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,6 +53,10 @@ typedef void(^YGMakeLayoutBlock)(YGLayoutMaker *make);
 
 - (YGLayoutMaker *)makeLayout:(YGMakeLayoutBlock)block;
 
+/**
+ 只会对一级子节点进行标记
+ */
+- (void)markChildrenDirty;
 
 @end
 

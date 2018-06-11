@@ -38,6 +38,11 @@ typedef void (^YGLayoutConfigurationBlock)(YGLayout *);
  */
 - (void)makeLayout:(YGMakeLayoutBlock)block;
 
+/**
+ It's only going to mark the first subView
+ */
+- (void)markSubViewsDirty;
+
 @end
 
 NS_ASSUME_NONNULL_END

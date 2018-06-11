@@ -256,7 +256,6 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
     YGApplyLayoutToViewHierarchy(self.view, preserveOrigin);
 }
 
-
 - (CGSize)intrinsicSize
 {
     const CGSize constrainedSize = {
@@ -285,6 +284,17 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
     };
 }
 
+- (CGSize)calculateLayoutWithDimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility {
+    CGSize size = self.view.frame.size;
+    if (dimensionFlexibility & YGDimensionFlexibilityFlexibleWidth) {
+        size.width = YGUndefined;
+    }
+    if (dimensionFlexibility & YGDimensionFlexibilityFlexibleHeigth) {
+        size.height = YGUndefined;
+    }
+    return [self calculateLayoutWithSize:size];
+}
+
 #pragma mark - Private
 
 static YGSize YGMeasureView(
@@ -300,19 +310,12 @@ static YGSize YGMeasureView(
     YGLayoutDiv *div = (__bridge YGLayoutDiv *) YGNodeGetContext(node);
     __block CGSize sizeThatFits = div.frame.size;
     if (div.view) {
-        if ([[NSThread currentThread] isMainThread]) {
+        FK_MAIN_QUEUE_EXEC({
             sizeThatFits = [div.view sizeThatFits:(CGSize) {
                 .width = constrainedWidth,
                 .height = constrainedHeight,
             }];
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                sizeThatFits = [div.view sizeThatFits:(CGSize) {
-                    .width = constrainedWidth,
-                    .height = constrainedHeight,
-                }];
-            });
-        }
+        })
     }
     return (YGSize) {
         .width = YGSanitizeMeasurement(constrainedWidth, sizeThatFits.width, widthMode),
@@ -426,7 +429,7 @@ static void YGApplyLayoutToViewHierarchy(YGLayoutDiv *div, BOOL preserveOrigin)
     };
     
     const CGPoint origin = preserveOrigin ? div.frame.origin : CGPointZero;
-    CGRect frame = (CGRect) {
+    div.frame = (CGRect) {
         .origin = {
             .x = YGRoundPixelValue(topLeft.x + origin.x),
             .y = YGRoundPixelValue(topLeft.y + origin.y),
@@ -436,24 +439,7 @@ static void YGApplyLayoutToViewHierarchy(YGLayoutDiv *div, BOOL preserveOrigin)
             .height = YGRoundPixelValue(bottomRight.y) - YGRoundPixelValue(topLeft.y),
         },
     };
-    
-    YGLayoutDiv *parent = div.parent;
-    if (!parent.view) {
-        frame.origin.x += parent.frame.origin.x;
-        frame.origin.y += parent.frame.origin.y;
-    }
-    
-    if (parent && div.view) {
-        if ([[NSThread currentThread] isMainThread]) {
-            div.view.frame = frame;
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                div.view.frame = frame;
-            });
-        }
-    }
-    div.frame = frame;
-    
+
     if (!yoga.isLeaf) {
         for (NSUInteger i=0; i<div.children.count; i++) {
             YGApplyLayoutToViewHierarchy(div.children[i], NO);

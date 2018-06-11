@@ -20,10 +20,12 @@
 
 @synthesize yoga = _yoga;
 @synthesize superView = _superView;
+@synthesize frame = _frame;
 
 - (instancetype)initWithView:(UIView *)view {
     if (self = [super init]) {
         _view = view;
+        _frame = view.frame;
     }
     return self;
 }
@@ -51,6 +53,20 @@
 
 - (NSArray *)children {
     return self.childrenArray;
+}
+
+- (void)setFrame:(CGRect)frame {
+    YGLayoutDiv *parent = self.parent;
+    if (!parent.view) {
+        frame.origin.x += parent.frame.origin.x;
+        frame.origin.y += parent.frame.origin.y;
+    }
+    _frame = frame;
+    if (self.view) {
+        FK_MAIN_QUEUE_EXEC({
+            self.view.frame = frame;
+        })
+    }
 }
 
 - (CGRect)frame {
@@ -102,6 +118,13 @@
     return maker;
 }
 
+- (void)markChildrenDirty {
+    for (YGLayoutDiv *div in self.children) {
+        if (div.children.count > 0) continue;
+        [div.yoga markDirty];
+    }
+}
+
 - (UIView *)superView {
     if (!_superView) {
         _superView = YGGetSuperViewOfLayoutDivHierarchy(self);
@@ -119,8 +142,7 @@ static inline UIView *YGGetSuperViewOfLayoutDivHierarchy(YGLayoutDiv *div) {
 static inline void YGAddChildrenViewsToSuperViewHierarchy(YGLayoutDiv *div, YGLayoutDiv *child) {
     UIView *container = div.view? :div.superView;
     child.superView = container;
-    if (child.view) {
-        [child.view removeFromSuperview];
+    if (child.view && !child.view.superview) {
         [child.superView addSubview:child.view];
     } else {
         for (int i = 0; i < child.children.count; i++) {

@@ -98,6 +98,14 @@ YG_MAKER_PROPERTY_REALIZE(YGValue, maxHeight);
 
 YG_MAKER_PROPERTY_REALIZE(CGFloat, aspectRatio);
 
+- (YGLayoutMaker *(^)(CGSize))size {
+    return ^(CGSize size) {
+        self.yoga.width = YGPointValue(size.width);
+        self.yoga.height = YGPointValue(size.height);
+        return self;
+    };
+}
+
 - (YGLayoutMaker *(^)(void))markDirty {
     return ^(void) {
         [self.yoga markDirty];

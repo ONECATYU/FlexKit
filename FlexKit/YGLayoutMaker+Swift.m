@@ -80,6 +80,12 @@ YG_MAKER_PROPERTY_REALIZE_SWIFT(YGValue, maxHeight)
 
 YG_MAKER_PROPERTY_REALIZE_SWIFT(CGFloat, aspectRatio)
 
+- (YGLayoutMaker *)size:(CGSize)size {
+    self.yoga.width = YGPointValue(size.width);
+    self.yoga.height = YGPointValue(size.height);
+    return self;
+}
+
 - (YGLayoutMaker *)markDirty {
     [self.yoga markDirty];
     return self;

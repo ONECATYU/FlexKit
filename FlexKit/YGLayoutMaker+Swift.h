@@ -78,6 +78,8 @@ YG_MAKER_PROPERTY_SWIFT(YGValue, maxHeight);
 
 YG_MAKER_PROPERTY_SWIFT(CGFloat, aspectRatio);
 
+- (YGLayoutMaker *)size:(CGSize)size;
+
 - (YGLayoutMaker *)markDirty;
 
 - (YGLayoutMaker *)addChild:(id<YGLayoutDivProtocol>)child;

@@ -1,24 +1,24 @@
 //
-//  ViewController.swift
+//  SimpleExViewController.swift
 //  Example
 //
-//  Created by 余汪送 on 2018/6/5.
+//  Created by 余汪送 on 2018/6/8.
 //  Copyright © 2018年 capsule. All rights reserved.
 //
 
 import UIKit
-import FlexKit
 
-class ViewController: UIViewController {
+class SimpleExViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         let container = createView(backgroundColor: .groupTableViewBackground)
         let leftView = createView(backgroundColor: .orange)
         let titleLabel = createLabel(fontSize: 15)
         let descLabel = createLabel(fontSize: 12)
-        
+
         let bottomLelftView = self.createView(backgroundColor: .orange)
         let bottomRightView = self.createView(backgroundColor: .orange)
         
@@ -62,6 +62,32 @@ class ViewController: UIViewController {
         descLabel.text = "你好我是简介,上面是我的标题";
     }
     
+    lazy var titleLabel: UILabel = {
+        return createLabel(fontSize: 15, textColor: .black)
+    }()
+    
+    lazy var contentLabel: UILabel = {
+        return createLabel(fontSize: 15, textColor: .darkGray)
+    }()
+    
+    lazy var contentImgView = UIImageView()
+    
+    lazy var userNameLabel: UILabel = {
+        return createLabel(fontSize: 12, textColor: .lightGray)
+    }()
+    
+    lazy var timeLabel: UILabel = {
+        return createLabel(fontSize: 12, textColor: .lightGray)
+    }()
+    func createLabel(fontSize: CGFloat,
+                     textColor: UIColor) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: fontSize)
+        label.textColor = textColor
+        label.numberOfLines = 0
+        return label
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.view.yoga.applyLayout(preservingOrigin: false)
@@ -70,7 +96,7 @@ class ViewController: UIViewController {
     func createLabel(fontSize: CGFloat) -> UILabel {
         let lab = UILabel()
         lab.backgroundColor = UIColor.orange
-        lab.numberOfLines = 2
+        lab.numberOfLines = 0
         lab.font = UIFont.systemFont(ofSize: fontSize)
         lab.textColor = UIColor.white
         return lab
@@ -81,12 +107,9 @@ class ViewController: UIViewController {
         view.backgroundColor = backgroundColor
         return view
     }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
 
-
 }
-

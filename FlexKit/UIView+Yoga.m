@@ -37,4 +37,13 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
     [self.layoutDiv makeLayout: block];
 }
 
+- (void)markSubViewsDirty {
+    if (!self.isYogaEnabled) return;
+    for (UIView *subView in self.subviews) {
+        if (!subView.isYogaEnabled) continue;
+        if (subView.layoutDiv.children.count > 0) continue;
+        [subView.yoga markDirty];
+    }
+}
+
 @end

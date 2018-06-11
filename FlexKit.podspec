@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "FlexKit"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "FlexLayout,支持链式调用,虚拟div"
   s.description  = <<-DESC
                     *链式调用

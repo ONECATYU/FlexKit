@@ -89,6 +89,9 @@ YG_MAKER_PROPERTY(YGValue, maxHeight);
 
 YG_MAKER_PROPERTY(CGFloat, aspectRatio);
 
+- (YGLayoutMaker *(^)(CGSize))size
+NS_SWIFT_UNAVAILABLE("Use the extensions instead");
+
 - (YGLayoutMaker *(^)(void))markDirty
 NS_SWIFT_UNAVAILABLE("Use the extensions instead");
 

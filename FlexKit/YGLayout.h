@@ -122,7 +122,7 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
  Returns the size of the view if no constraints were given. This could equivalent to calling [self
  sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
  */
-@property (nonatomic, readonly, assign) CGSize intrinsicSize;
+- (CGSize)intrinsicSize;
 
 /**
   Returns the size of the view based on provided constraints. Pass NaN for an unconstrained dimension.
@@ -130,6 +130,8 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
 - (CGSize)calculateLayoutWithSize:(CGSize)size
     NS_SWIFT_NAME(calculateLayout(with:));
 
+- (CGSize)calculateLayoutWithDimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility
+    NS_SWIFT_NAME(calculateLayout(dimensionFlexibility:));
 /**
  Returns the number of children that are using Flexbox.
  */
