@@ -58,6 +58,8 @@ typedef void(^YGMakeLayoutBlock)(YGLayoutMaker *make);
  */
 - (void)markChildrenDirty;
 
+- (void)setUpdateFrameBlock:(void(^)(CGRect))updateFrameBlock;
+
 @end
 
 NS_ASSUME_NONNULL_END

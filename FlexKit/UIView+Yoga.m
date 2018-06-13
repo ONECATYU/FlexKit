@@ -23,6 +23,10 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
     YGLayoutDiv *div = objc_getAssociatedObject(self, @selector(layoutDiv));
     if (!div) {
         div = [[YGLayoutDiv alloc]initWithView:self];
+        __weak typeof(self) weakSelf = self;
+        [div setUpdateFrameBlock:^(CGRect frame) {
+            weakSelf.frame = frame;
+        }];
         objc_setAssociatedObject(self, @selector(layoutDiv), div, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return div;

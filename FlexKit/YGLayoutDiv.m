@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSMutableArray<YGLayoutDiv *> *childrenArray;
 @property (nonatomic, weak) YGLayoutDiv *parentDiv;
 @property (nonatomic, weak) UIView *superView;
+@property (nonatomic, copy) void(^updateFrameBlock)(CGRect frame);
 @end
 
 @implementation YGLayoutDiv
@@ -62,25 +63,18 @@
         frame.origin.y += parent.frame.origin.y;
     }
     _frame = frame;
-    if (self.view) {
-        FK_MAIN_QUEUE_EXEC({
-            self.view.frame = frame;
-        })
-    }
+    FK_MAIN_QUEUE_EXEC({
+        if (self.updateFrameBlock) self.updateFrameBlock(frame);
+    })
 }
 
 - (CGRect)frame {
     if (!self.view || self.parent) return _frame;
-    if ([[NSThread currentThread] isMainThread]) {
-        return self.view.frame;
-    } else {
-        __block CGRect rect = _frame;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            rect = self.view.frame;
-        });
-        return rect;
-    }
-    return _frame;
+    __block CGRect rect = _frame;
+    FK_MAIN_QUEUE_EXEC({
+        rect = self.view.frame;
+    })
+    return rect;
 }
 
 - (void)addChild:(YGLayoutDiv *)child {
