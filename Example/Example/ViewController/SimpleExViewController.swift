@@ -7,90 +7,55 @@
 //
 
 import UIKit
+import FlexKit
 
-class SimpleExViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        
-        let container = createView(backgroundColor: .groupTableViewBackground)
-        let leftView = createView(backgroundColor: .orange)
-        let titleLabel = createLabel(fontSize: 15)
-        let descLabel = createLabel(fontSize: 12)
-
-        let bottomLelftView = self.createView(backgroundColor: .orange)
-        let bottomRightView = self.createView(backgroundColor: .orange)
-        
-        self.view.makeLayout { (make) in
-            make.justifyContent(.center);
-            make.addChild(container, withMakeLayout: { (make) in
-                make.flexDirection(.row).padding(12);
-                make.addChild(leftView)
-                    .aspectRatio(1)
-                    .width(120);
+class SimpleItem: UIView {
+    lazy var leftView = createView(backgroundColor: .orange)
+    lazy var titleLabel = createLabel(fontSize: 15)
+    lazy var descLabel = createLabel(fontSize: 12)
+    
+    lazy var bottomLelftView = createView(backgroundColor: .orange)
+    lazy var bottomRightView = createView(backgroundColor: .orange)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = .white
+        makeLayout { [weak self] (make) in
+            make.flexDirection(.row).padding(12).marginVertical(0.5);
+            make.addChild(self!.leftView)
+                .aspectRatio(1)
+                .width(120);
+            
+            make.addChild(nil, withMakeLayout: { (make) in
+                make.flexGrow(1)
+                    .flexShrink(1)
+                    .justifyContent(.spaceBetween)
+                    .paddingLeft(12);
                 
                 make.addChild(nil, withMakeLayout: { (make) in
-                    make.flexGrow(1)
-                        .flexShrink(1)
-                        .justifyContent(.spaceBetween)
-                        .paddingLeft(12);
+                    make.addChild(self!.titleLabel);
+                    make.addChild(self!.descLabel).top(6);
+                })
+                
+                make.addChild(nil, withMakeLayout: { (make) in
+                    make.flexDirection(.row)
+                        .justifyContent(.spaceBetween);
                     
-                    make.addChild(nil, withMakeLayout: { (make) in
-                        make.addChild(titleLabel);
-                        make.addChild(descLabel).top(6);
-                    })
+                    make.addChild(self!.bottomLelftView)
+                        .width(80)
+                        .height(20)
+                        .alignSelf(.flexEnd);
                     
-                    make.addChild(nil, withMakeLayout: { (make) in
-                        make.flexDirection(.row)
-                            .justifyContent(.spaceBetween);
-                        
-                        make.addChild(bottomLelftView)
-                            .width(80)
-                            .height(20)
-                            .alignSelf(.flexEnd);
-                        
-                        make.addChild(bottomRightView)
-                            .height(30)
-                            .aspectRatio(1);
-                    })
+                    make.addChild(self!.bottomRightView)
+                        .height(30)
+                        .aspectRatio(1);
                 })
             })
         }
-        
-        titleLabel.text = "你好我是标题,下面是我的内容简介,↓↓↓";
-        descLabel.text = "你好我是简介,上面是我的标题";
     }
     
-    lazy var titleLabel: UILabel = {
-        return createLabel(fontSize: 15, textColor: .black)
-    }()
-    
-    lazy var contentLabel: UILabel = {
-        return createLabel(fontSize: 15, textColor: .darkGray)
-    }()
-    
-    lazy var contentImgView = UIImageView()
-    
-    lazy var userNameLabel: UILabel = {
-        return createLabel(fontSize: 12, textColor: .lightGray)
-    }()
-    
-    lazy var timeLabel: UILabel = {
-        return createLabel(fontSize: 12, textColor: .lightGray)
-    }()
-    func createLabel(fontSize: CGFloat,
-                     textColor: UIColor) -> UILabel {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: fontSize)
-        label.textColor = textColor
-        label.numberOfLines = 0
-        return label
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.view.yoga.applyLayout(preservingOrigin: false)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func createLabel(fontSize: CGFloat) -> UILabel {
@@ -107,6 +72,38 @@ class SimpleExViewController: UIViewController {
         view.backgroundColor = backgroundColor
         return view
     }
+}
+
+class SimpleExViewController: UIViewController {
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.layoutDiv.setUpdateFrameBlock({ (frame) in
+            scrollView.contentSize = frame.size
+        })
+        return scrollView
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.groupTableViewBackground
+        view.addSubview(scrollView)
+        title = "scrollView auto adjust content"
+        
+        for _ in 0..<20 {
+            let item = SimpleItem()
+            scrollView.yoga.make.addChild(item)
+            item.titleLabel.text = "标题标题标题标题标题标题标题标题"
+            item.descLabel.text = "简介简介简介简介简介简介简介简介"
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.frame = view.bounds
+        scrollView.yoga.applyLayout(preservingOrigin: false, dimensionFlexibility: .flexibleHeigth)
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
