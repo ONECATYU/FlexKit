@@ -17,24 +17,19 @@ __VA_ARGS__ \
 ); \
 }
 
-@class YGLayout, YGLayoutMaker, YGLayoutDiv;
+@class YGLayout, YGLayoutDiv;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^YGMakeLayoutBlock)(YGLayoutMaker *make);
-
 
 @protocol YGLayoutDivProtocol <NSObject>
-
 - (YGLayoutDiv *)layoutDiv;
-
 @end
 
 
 @interface YGLayoutDiv : NSObject <YGLayoutDivProtocol>
 
 @property (nonatomic, readonly, strong) YGLayout *yoga;
-@property (nonatomic, readonly, weak) YGLayoutMaker *make;
 
 @property (nullable, nonatomic, readonly, weak) YGLayoutDiv *parent;
 @property (nonatomic, readonly, strong) NSArray<YGLayoutDiv *> *children;
@@ -50,8 +45,6 @@ typedef void(^YGMakeLayoutBlock)(YGLayoutMaker *make);
 
 - (void)removeChild:(YGLayoutDiv *)child;
 - (void)removeFromParent;
-
-- (YGLayoutMaker *)makeLayout:(YGMakeLayoutBlock)block;
 
 /**
  只会对一级子节点进行标记

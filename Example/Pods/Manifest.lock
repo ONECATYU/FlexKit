@@ -1,5 +1,5 @@
 PODS:
-  - FlexKit (0.0.3):
+  - FlexKit (0.0.5):
     - Yoga (~> 1.8.1)
   - "UITableView+FDTemplateLayoutCell (1.6)"
   - Yoga (1.8.1)
@@ -18,7 +18,7 @@ EXTERNAL SOURCES:
     :path: "../FlexKit.podspec"
 
 SPEC CHECKSUMS:
-  FlexKit: 968045cd035cd22f6c1b34e379a40ed9d4d40378
+  FlexKit: a4ce279a27c5f5f2ff8a4bf59c9b46020e767243
   "UITableView+FDTemplateLayoutCell": 5c949b4a5059c404b442926c0e80f81d10a2d66f
   Yoga: e6f1fed82138c17da5332e15e5770abf0e9cc386
 

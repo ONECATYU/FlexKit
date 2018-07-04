@@ -284,17 +284,6 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
     };
 }
 
-- (CGSize)calculateLayoutWithDimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility {
-    CGSize size = self.view.frame.size;
-    if (dimensionFlexibility & YGDimensionFlexibilityFlexibleWidth) {
-        size.width = YGUndefined;
-    }
-    if (dimensionFlexibility & YGDimensionFlexibilityFlexibleHeigth) {
-        size.height = YGUndefined;
-    }
-    return [self calculateLayoutWithSize:size];
-}
-
 #pragma mark - Private
 
 static YGSize YGMeasureView(

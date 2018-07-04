@@ -14,8 +14,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^YGLayoutConfigurationBlock)(YGLayout *);
-
 @interface UIView (Yoga) <YGLayoutDivProtocol>
 
 /**
@@ -30,13 +28,6 @@ typedef void (^YGLayoutConfigurationBlock)(YGLayout *);
  Virtual div to join the layout
  */
 @property (nonatomic, readonly, strong) YGLayoutDiv *layoutDiv;
-
-/**
- In ObjC land, every time you access `view.yoga.*` you are adding another `objc_msgSend`
- to your code. If you plan on making multiple changes to YGLayout, it's more performant
- to use this method, which uses a single objc_msgSend call.
- */
-- (void)makeLayout:(YGMakeLayoutBlock)block;
 
 /**
  It's only going to mark the first subView

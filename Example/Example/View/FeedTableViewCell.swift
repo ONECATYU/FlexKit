@@ -62,7 +62,7 @@ class FeedTableViewCell: UITableViewCell {
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         var layoutSize = size
-        layoutSize.height = CGFloat.greatestFiniteMagnitude
+        layoutSize.height = CGFloat(YGUndefined);
         let size = contentView.yoga.calculateLayout(with: layoutSize)
         return size
     }

@@ -8,7 +8,6 @@
 
 #import "YGLayoutDiv.h"
 #import "YGLayout+Private.h"
-#import "YGLayoutMaker.h"
 
 @interface YGLayoutDiv ()
 @property (nonatomic, strong) NSMutableArray<YGLayoutDiv *> *childrenArray;
@@ -37,10 +36,6 @@
         _yoga.isEnabled = YES;
     }
     return _yoga;
-}
-
-- (YGLayoutMaker *)make {
-    return self.yoga.make;
 }
 
 - (NSMutableArray<YGLayoutDiv *> *)childrenArray {
@@ -100,16 +95,11 @@
     if (child.view) {
         [child.view removeFromSuperview];
     }
+    YGNodeRemoveChild(self.yoga.node, child.yoga.node);
 }
 
 - (void)removeFromParent {
     [self.parent removeChild:self];
-}
-
-- (YGLayoutMaker *)makeLayout:(YGMakeLayoutBlock)block {
-    YGLayoutMaker *maker = self.yoga.make;
-    if (block) block(maker);
-    return maker;
 }
 
 - (void)markChildrenDirty {
