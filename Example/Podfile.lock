@@ -1,8 +1,10 @@
 PODS:
-  - FlexKit (0.0.5):
-    - Yoga (~> 1.8.1)
+  - FlexKit (0.0.6):
+    - YogaKit
   - "UITableView+FDTemplateLayoutCell (1.6)"
-  - Yoga (1.8.1)
+  - Yoga (1.9.0)
+  - YogaKit (1.9.0):
+    - Yoga (~> 1.9)
 
 DEPENDENCIES:
   - FlexKit (from `../FlexKit.podspec`)
@@ -12,15 +14,17 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - "UITableView+FDTemplateLayoutCell"
     - Yoga
+    - YogaKit
 
 EXTERNAL SOURCES:
   FlexKit:
     :path: "../FlexKit.podspec"
 
 SPEC CHECKSUMS:
-  FlexKit: a4ce279a27c5f5f2ff8a4bf59c9b46020e767243
+  FlexKit: dbc8482b3dde9392076d9384c5aa692c18f2033c
   "UITableView+FDTemplateLayoutCell": 5c949b4a5059c404b442926c0e80f81d10a2d66f
-  Yoga: e6f1fed82138c17da5332e15e5770abf0e9cc386
+  Yoga: aaae8abea68951f60bee05f6277d3eed90bb91bb
+  YogaKit: d447a9bb808718e6f58e52a2255a8050081a3ead
 
 PODFILE CHECKSUM: 2c462e76ce50d75970804018857ff4342507129f
 

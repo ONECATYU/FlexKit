@@ -1,21 +1,20 @@
 //
-//  YGLayoutMaker+Swift.m
-//  FlexKit
+//  YGFlexMaker+Swift.m
+//  jscallnative
 //
-//  Created by 余汪送 on 2018/6/5.
-//  Copyright © 2018年 capsule. All rights reserved.
+//  Created by 余汪送 on 2019/2/15.
+//  Copyright © 2019 capsule. All rights reserved.
 //
 
-#import "YGLayoutMaker+Swift.h"
-#import "YGLayout+Private.h"
+#import "YGFlexMaker+Swift.h"
 
 #define YG_MAKER_PROPERTY_REALIZE_SWIFT(type, property) \
-- (YGLayoutMaker *)property:(type)property { \
-self.yoga.property = property; \
+- (YGFlexMaker *)property:(type)property { \
+self.flexLayout.property = property; \
 return self; \
 }
 
-@implementation YGLayoutMaker (Swift)
+@implementation YGFlexMaker (Swift)
 
 YG_MAKER_PROPERTY_REALIZE_SWIFT(BOOL, isIncludedInLayout)
 
@@ -80,35 +79,36 @@ YG_MAKER_PROPERTY_REALIZE_SWIFT(YGValue, maxHeight)
 
 YG_MAKER_PROPERTY_REALIZE_SWIFT(CGFloat, aspectRatio)
 
-- (YGLayoutMaker *)size:(CGSize)size {
-    self.yoga.width = YGPointValue(size.width);
-    self.yoga.height = YGPointValue(size.height);
+- (YGFlexMaker *)size:(CGSize)size {
+    self.flexLayout.width = YGPointValue(size.width);
+    self.flexLayout.height = YGPointValue(size.height);
     return self;
 }
 
-- (YGLayoutMaker *)markDirty {
-    [self.yoga markDirty];
+- (YGFlexMaker *)markDirty {
+    [self.flexLayout markDirty];
     return self;
 }
 
-- (YGLayoutMaker *)addChild:(id<YGLayoutDivProtocol>)child {
-    [self.yoga.view addChild:child.layoutDiv];
-    return child.layoutDiv.yoga.make;
+- (YGFlexMaker *)addChild:(_Nullable id<YGFlexDivProtocol>)child {
+    if (!child) child = [[YGFlexDiv alloc]initWithView:nil];
+    [self.flexLayout.flexDiv addChild:child.flexDiv];
+    return child.flexDiv.yoga.make;
 }
 
-- (void)addChildren:(NSArray<id<YGLayoutDivProtocol>> *)children {
+- (void)addChildren:(NSArray<id<YGFlexDivProtocol>> *)children {
     for (NSInteger i = 0; i < children.count; i++) {
-        [self.yoga.view addChild:children[i].layoutDiv];
+        [self.flexLayout.flexDiv addChild:children[i].flexDiv];
     }
 }
 
-- (YGLayoutMaker *)removeChild:(id<YGLayoutDivProtocol>)child {
-    [self.yoga.view removeChild: child.layoutDiv];
+- (YGFlexMaker *)removeChild:(id<YGFlexDivProtocol>)child {
+    [self.flexLayout.flexDiv removeChild: child.flexDiv];
     return self;
 }
 
-- (YGLayoutMaker *)removeFromParent {
-    [self.yoga.view removeFromParent];
+- (YGFlexMaker *)removeFromParent {
+    [self.flexLayout.flexDiv removeFromParent];
     return self;
 }
 

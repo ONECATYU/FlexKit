@@ -12,7 +12,6 @@
 		278EF0B920C68CFD006B0689 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278EF0B720C68CFD006B0689 /* Main.storyboard */; };
 		278EF0BB20C68CFE006B0689 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 278EF0BA20C68CFE006B0689 /* Assets.xcassets */; };
 		278EF0BE20C68CFE006B0689 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278EF0BC20C68CFE006B0689 /* LaunchScreen.storyboard */; };
-		279985E820CA52030084A47A /* YGLayoutExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279985E720CA52030084A47A /* YGLayoutExtensions.swift */; };
 		279985EA20CA590E0084A47A /* SimpleExViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279985E920CA590E0084A47A /* SimpleExViewController.swift */; };
 		279985EC20CA5B360084A47A /* TableViewExViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279985EB20CA5B360084A47A /* TableViewExViewController.swift */; };
 		279985EE20CA5E280084A47A /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 279985ED20CA5E270084A47A /* data.json */; };
@@ -29,7 +28,6 @@
 		278EF0BA20C68CFE006B0689 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		278EF0BD20C68CFE006B0689 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		278EF0BF20C68CFE006B0689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		279985E720CA52030084A47A /* YGLayoutExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGLayoutExtensions.swift; sourceTree = "<group>"; };
 		279985E920CA590E0084A47A /* SimpleExViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleExViewController.swift; sourceTree = "<group>"; };
 		279985EB20CA5B360084A47A /* TableViewExViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExViewController.swift; sourceTree = "<group>"; };
 		279985ED20CA5E270084A47A /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
@@ -82,7 +80,6 @@
 		278EF0B220C68CFD006B0689 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				279985EF20CA5E780084A47A /* Extension */,
 				279985F120CA5EA30084A47A /* Model */,
 				279985F220CA5EB20084A47A /* View */,
 				279985F020CA5E880084A47A /* ViewController */,
@@ -94,14 +91,6 @@
 				278EF0BF20C68CFE006B0689 /* Info.plist */,
 			);
 			path = Example;
-			sourceTree = "<group>";
-		};
-		279985EF20CA5E780084A47A /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				279985E720CA52030084A47A /* YGLayoutExtensions.swift */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		279985F020CA5E880084A47A /* ViewController */ = {
@@ -236,17 +225,18 @@
 				"${BUILT_PRODUCTS_DIR}/FlexKit/FlexKit.framework",
 				"${BUILT_PRODUCTS_DIR}/UITableView+FDTemplateLayoutCell/UITableView_FDTemplateLayoutCell.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
+				"${BUILT_PRODUCTS_DIR}/YogaKit/YogaKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlexKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITableView_FDTemplateLayoutCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YogaKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -255,7 +245,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				279985E820CA52030084A47A /* YGLayoutExtensions.swift in Sources */,
 				279985F420CA5F080084A47A /* Feed.swift in Sources */,
 				279985F620CA60770084A47A /* FeedTableViewCell.swift in Sources */,
 				279985EA20CA590E0084A47A /* SimpleExViewController.swift in Sources */,
@@ -408,7 +397,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Example/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.capsule.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -423,7 +415,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Example/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.capsule.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

@@ -1,19 +1,19 @@
 //
-//  YGLayoutMaker+Swift.h
-//  FlexKit
+//  YGFlexMaker+Swift.h
+//  jscallnative
 //
-//  Created by 余汪送 on 2018/6/5.
-//  Copyright © 2018年 capsule. All rights reserved.
+//  Created by 余汪送 on 2019/2/15.
+//  Copyright © 2019 capsule. All rights reserved.
 //
 
-#import "YGLayoutMaker.h"
+#import "YGFlexMaker.h"
 
 #define YG_MAKER_PROPERTY_SWIFT(type, property) \
-- (YGLayoutMaker *)property:(type)property
+- (YGFlexMaker *)property:(type)property
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YGLayoutMaker (Swift)
+@interface YGFlexMaker (Swift)
 
 YG_MAKER_PROPERTY_SWIFT(BOOL, isIncludedInLayout);
 
@@ -78,15 +78,15 @@ YG_MAKER_PROPERTY_SWIFT(YGValue, maxHeight);
 
 YG_MAKER_PROPERTY_SWIFT(CGFloat, aspectRatio);
 
-- (YGLayoutMaker *)size:(CGSize)size;
+- (YGFlexMaker *)size:(CGSize)size;
 
-- (YGLayoutMaker *)markDirty;
+- (YGFlexMaker *)markDirty;
 
-- (YGLayoutMaker *)addChild:(id<YGLayoutDivProtocol>)child;
-- (void)addChildren:(NSArray<id<YGLayoutDivProtocol>> *)children;
+- (YGFlexMaker *)addChild:(_Nullable id<YGFlexDivProtocol>)child;
+- (void)addChildren:(NSArray<id<YGFlexDivProtocol>> *)children;
 
-- (YGLayoutMaker *)removeChild:(id<YGLayoutDivProtocol>)child;
-- (YGLayoutMaker *)removeFromParent;
+- (YGFlexMaker *)removeChild:(id<YGFlexDivProtocol>)child;
+- (YGFlexMaker *)removeFromParent;
 
 @end
 

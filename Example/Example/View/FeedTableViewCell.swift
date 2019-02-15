@@ -41,7 +41,7 @@ class FeedTableViewCell: UITableViewCell {
                 }
                 contentImgView.image = image;
                 let size = image?.size ?? .zero
-                contentImgView.yoga.make.size(size)
+                contentImgView.flexLayout.make.size(size)
             }
             userNameLabel.text = newValue?.username
             timeLabel.text = newValue?.time
@@ -57,13 +57,13 @@ class FeedTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.yoga.applyLayout(preservingOrigin: false)
+        contentView.flexLayout.applyLayout(preservingOrigin: false)
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         var layoutSize = size
         layoutSize.height = CGFloat(YGUndefined);
-        let size = contentView.yoga.calculateLayout(with: layoutSize)
+        let size = contentView.flexLayout.calculateLayout(with: layoutSize)
         return size
     }
     

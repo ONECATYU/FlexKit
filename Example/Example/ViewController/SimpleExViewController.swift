@@ -78,9 +78,10 @@ class SimpleExViewController: UIViewController {
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.layoutDiv.setUpdateFrameBlock({ (frame) in
-            scrollView.contentSize = frame.size
-        })
+        scrollView.flexDiv.disableAutoApplyFrameToView = true;
+        scrollView.flexDiv.updateViewFrameBlock = {
+            scrollView.contentSize = $0.size
+        }
         return scrollView
     }()
 
@@ -92,7 +93,7 @@ class SimpleExViewController: UIViewController {
         
         for _ in 0..<20 {
             let item = SimpleItem()
-            scrollView.yoga.make.addChild(item)
+            scrollView.flexLayout.make.addChild(item)
             item.titleLabel.text = "标题标题标题标题标题标题标题标题"
             item.descLabel.text = "简介简介简介简介简介简介简介简介"
         }
@@ -101,7 +102,7 @@ class SimpleExViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
-        scrollView.yoga.applyLayout(preservingOrigin: false, dimensionFlexibility: .flexibleHeigth)
+        scrollView.flexLayout.applyLayout(preservingOrigin: false, dimensionFlexibility: .flexibleHeight)
     }
 
     override func didReceiveMemoryWarning() {

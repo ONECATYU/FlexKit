@@ -1,34 +1,41 @@
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <UIKit/UIKit.h>
 #import <yoga/YGEnums.h>
 #import <yoga/Yoga.h>
 #import <yoga/YGMacros.h>
-#import "YGLayoutDiv.h"
 
 YG_EXTERN_C_BEGIN
 
-extern YGValue YGPointValue(CGFloat value);
-extern YGValue YGPercentValue(CGFloat value);
+extern YGValue YGPointValue(CGFloat value)
+    NS_SWIFT_UNAVAILABLE("Use the swift Int and FloatingPoint extensions instead");
+extern YGValue YGPercentValue(CGFloat value)
+    NS_SWIFT_UNAVAILABLE("Use the swift Int and FloatingPoint extensions instead");
 
 YG_EXTERN_C_END
 
 typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
   YGDimensionFlexibilityFlexibleWidth = 1 << 0,
-  YGDimensionFlexibilityFlexibleHeigth = 1 << 1,
+  YGDimensionFlexibilityFlexibleHeight = 1 << 1,
 };
 
 @interface YGLayout : NSObject
 
 /**
-  The property that decides if we should include this view when calculating layout. Defaults to YES.
+ Make default init unavailable, as it will not initialise YGNode which is
+ required for the setters and getters of YGLayout's properties to work properly.
+*/
+- (instancetype)init
+    __attribute__((unavailable("you are not meant to initialise YGLayout")));
+
+/**
+  The property that decides if we should include this view when calculating
+  layout. Defaults to YES.
  */
 @property (nonatomic, readwrite, assign, setter=setIncludedInLayout:) BOOL isIncludedInLayout;
 
@@ -122,7 +129,7 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
  Returns the size of the view if no constraints were given. This could equivalent to calling [self
  sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
  */
-- (CGSize)intrinsicSize;
+@property (nonatomic, readonly, assign) CGSize intrinsicSize;
 
 /**
   Returns the size of the view based on provided constraints. Pass NaN for an unconstrained dimension.

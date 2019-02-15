@@ -1,18 +1,42 @@
 //
-//  YGLayoutMaker+OC.h
-//  FlexKit
+//  YGFlexMaker.h
+//  jscallnative
 //
-//  Created by 余汪送 on 2018/7/3.
+//  Created by 余汪送 on 2019/2/15.
+//  Copyright © 2019 capsule. All rights reserved.
 //
 
-#import "YGLayoutMaker.h"
+#import <Foundation/Foundation.h>
+#import "YGFlexLayout.h"
+
+@class YGFlexMaker;
 
 #define YG_MAKER_PROPERTY(type, property) \
-- (YGLayoutMaker *(^)(type))property NS_SWIFT_UNAVAILABLE("Use the extensions instead")
+- (YGFlexMaker *(^)(type))property NS_SWIFT_UNAVAILABLE("Use the extensions instead")
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YGLayoutMaker (OC)
+@interface YGFlexLayout (YGFlexMaker)
+
+@property (nonatomic, readonly, strong) YGFlexMaker *make;
+
+@end
+
+
+
+@interface YGFlexDiv (YGFlexMaker)
+
+- (void)makeLayout:(void(^)(YGFlexMaker *make))block;
+
+@end
+
+
+
+@interface YGFlexMaker : NSObject
+
+@property (nullable, nonatomic, readonly, weak) YGFlexLayout *flexLayout;
+
+- (instancetype)initWithLayout:(YGFlexLayout *)flexLayout;
 
 YG_MAKER_PROPERTY(BOOL, isIncludedInLayout);
 
@@ -77,21 +101,26 @@ YG_MAKER_PROPERTY(YGValue, maxHeight);
 
 YG_MAKER_PROPERTY(CGFloat, aspectRatio);
 
-- (YGLayoutMaker *(^)(CGSize))size
+- (YGFlexMaker *(^)(CGSize))size
 NS_SWIFT_UNAVAILABLE("Use the extensions instead");
 
-- (YGLayoutMaker *(^)(void))markDirty
+- (YGFlexMaker *(^)(void))markDirty
 NS_SWIFT_UNAVAILABLE("Use the extensions instead");
 
-- (YGLayoutMaker *(^)(id<YGLayoutDivProtocol>))addChild
-NS_SWIFT_UNAVAILABLE("Use the extensions instead");
-- (void(^)(NSArray<id<YGLayoutDivProtocol>> *))addChildren
+- (YGFlexMaker *(^)(_Nullable id<YGFlexDivProtocol>))addChild
 NS_SWIFT_UNAVAILABLE("Use the extensions instead");
 
-- (YGLayoutMaker *(^)(id<YGLayoutDivProtocol>))removeChild
+- (void(^)(NSArray<id<YGFlexDivProtocol>> *))addChildren
 NS_SWIFT_UNAVAILABLE("Use the extensions instead");
-- (YGLayoutMaker *(^)(void))removeFromParent
+
+- (YGFlexMaker *(^)(id<YGFlexDivProtocol>))removeChild
 NS_SWIFT_UNAVAILABLE("Use the extensions instead");
+
+- (YGFlexMaker *(^)(void))removeFromParent
+NS_SWIFT_UNAVAILABLE("Use the extensions instead");
+
+- (YGFlexDiv *)addChild:(_Nullable id<YGFlexDivProtocol>)child withMakeLayout:(void(^)(YGFlexMaker *make))block;
+- (YGFlexDiv *)addChildWithMakeLayout:(void (^)(YGFlexMaker *make))block;
 
 @end
 

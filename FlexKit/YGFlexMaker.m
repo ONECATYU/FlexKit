@@ -1,22 +1,46 @@
 //
-//  YGLayoutMaker+OC.m
-//  FlexKit
+//  YGFlexMaker.m
+//  jscallnative
 //
-//  Created by 余汪送 on 2018/7/3.
+//  Created by 余汪送 on 2019/2/15.
+//  Copyright © 2019 capsule. All rights reserved.
 //
 
-#import "YGLayoutMaker+OC.h"
-#import "YGLayout+Private.h"
+#import "YGFlexMaker.h"
 
 #define YG_MAKER_PROPERTY_REALIZE(type, property) \
-- (YGLayoutMaker *(^)(type))property { \
+- (YGFlexMaker *(^)(type))property { \
 return ^(type property) { \
-self.yoga.property = property; \
+self.flexLayout.property = property; \
 return self; \
 }; \
 }
 
-@implementation YGLayoutMaker (OC)
+@implementation YGFlexLayout (YGFlexMaker)
+- (YGFlexMaker *)make {
+    return [[YGFlexMaker alloc]initWithLayout:self];
+}
+@end
+
+@implementation YGFlexDiv (YGFlexMaker)
+
+- (void)makeLayout:(void (^)(YGFlexMaker *make))block {
+    if (block) {
+        block(self.yoga.make);
+    }
+}
+
+@end
+
+@implementation YGFlexMaker
+
+- (instancetype)initWithLayout:(YGFlexLayout *)flexLayout {
+    if (self = [super init]) {
+        _flexLayout = flexLayout;
+        _flexLayout.isEnabled = YES;
+    }
+    return self;
+}
 
 YG_MAKER_PROPERTY_REALIZE(BOOL, isIncludedInLayout);
 
@@ -81,46 +105,62 @@ YG_MAKER_PROPERTY_REALIZE(YGValue, maxHeight);
 
 YG_MAKER_PROPERTY_REALIZE(CGFloat, aspectRatio);
 
-- (YGLayoutMaker *(^)(CGSize))size {
+- (YGFlexMaker *(^)(CGSize))size {
     return ^(CGSize size) {
-        self.yoga.width = YGPointValue(size.width);
-        self.yoga.height = YGPointValue(size.height);
+        self.flexLayout.width = YGPointValue(size.width);
+        self.flexLayout.height = YGPointValue(size.height);
         return self;
     };
 }
 
-- (YGLayoutMaker *(^)(void))markDirty {
+- (YGFlexMaker *(^)(void))markDirty {
     return ^(void) {
-        [self.yoga markDirty];
+        [self.flexLayout markDirty];
         return self;
     };
 }
 
-- (YGLayoutMaker *(^)(id<YGLayoutDivProtocol>))addChild {
-    return ^(id<YGLayoutDivProtocol> child) {
-        [self.yoga.view addChild: child.layoutDiv];
-        return child.layoutDiv.yoga.make;
+- (YGFlexMaker *(^)(_Nullable id<YGFlexDivProtocol>))addChild {
+    return ^(_Nullable id<YGFlexDivProtocol> child) {
+        if (!child) child = [[YGFlexDiv alloc]initWithView:nil];
+        [self.flexLayout.flexDiv addChild: child.flexDiv];
+        return child.flexDiv.yoga.make;
     };
 }
 
-- (void(^)(NSArray<id<YGLayoutDivProtocol>> *))addChildren {
-    return ^(NSArray<id<YGLayoutDivProtocol>> * children) {
+
+- (YGFlexDiv *)addChild:(_Nullable id<YGFlexDivProtocol>)child withMakeLayout:(void(^)(YGFlexMaker *make))block {
+    if (!child) child = [[YGFlexDiv alloc]initWithView:nil];
+    [self.flexLayout.flexDiv addChild:child.flexDiv];
+    [child.flexDiv makeLayout:block];
+    return child;
+}
+
+- (YGFlexDiv *)addChildWithMakeLayout:(void (^)(YGFlexMaker *make))block {
+    YGFlexDiv *child = [[YGFlexDiv alloc]initWithView:nil];
+    [self.flexLayout.flexDiv addChild:child.flexDiv];
+    [child.flexDiv makeLayout:block];
+    return child;
+}
+
+- (void(^)(NSArray<id<YGFlexDivProtocol>> *))addChildren {
+    return ^(NSArray<id<YGFlexDivProtocol>> *children) {
         for (NSInteger i = 0; i < children.count; i++) {
-            [self.yoga.view addChild:children[i].layoutDiv];
+            [self.flexLayout.flexDiv addChild:children[i].flexDiv];
         }
     };
 }
 
-- (YGLayoutMaker *(^)(id<YGLayoutDivProtocol>))removeChild {
-    return ^(id<YGLayoutDivProtocol> child) {
-        [self.yoga.view removeChild: child.layoutDiv];
+- (YGFlexMaker *(^)(id<YGFlexDivProtocol>))removeChild {
+    return ^(id<YGFlexDivProtocol> child) {
+        [self.flexLayout.flexDiv removeChild:child.flexDiv];
         return self;
     };
 }
 
-- (YGLayoutMaker *(^)(void))removeFromParent {
+- (YGFlexMaker *(^)(void))removeFromParent {
     return ^(void) {
-        [self.yoga.view removeFromParent];
+        [self.flexLayout.flexDiv removeFromParent];
         return self;
     };
 }

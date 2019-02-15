@@ -10,12 +10,11 @@
 #endif
 #endif
 
-#import "UIView+Yoga.h"
-#import "YGLayout.h"
-#import "YGLayoutDiv.h"
-#import "YGLayoutMaker+OC.h"
-#import "YGLayoutMaker+Swift.h"
-#import "YGLayoutMaker.h"
+#import "UIView+YGFlexLayout.h"
+#import "YGFlexDiv.h"
+#import "YGFlexLayout.h"
+#import "YGFlexMaker+Swift.h"
+#import "YGFlexMaker.h"
 
 FOUNDATION_EXPORT double FlexKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char FlexKitVersionString[];
