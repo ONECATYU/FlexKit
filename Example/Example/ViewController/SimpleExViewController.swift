@@ -20,7 +20,7 @@ class SimpleItem: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        makeLayout { [weak self] (make) in
+        makeFlexLayout { [weak self] (make) in
             make.flexDirection(.row).padding(12).marginVertical(0.5);
             make.addChild(self!.leftView)
                 .aspectRatio(1)
@@ -52,6 +52,7 @@ class SimpleItem: UIView {
                 })
             })
         }
+        self.yoga.adjustsViewHierarchy()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -78,10 +79,6 @@ class SimpleExViewController: UIViewController {
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.flexDiv.disableAutoApplyFrameToView = true;
-        scrollView.flexDiv.updateViewFrameBlock = {
-            scrollView.contentSize = $0.size
-        }
         return scrollView
     }()
 
@@ -91,9 +88,12 @@ class SimpleExViewController: UIViewController {
         view.addSubview(scrollView)
         title = "scrollView auto adjust content"
         
+        ///将flex计算出来的size设置到contentSize上
+        scrollView.applyFlexFrameToContentSize = true
         for _ in 0..<20 {
             let item = SimpleItem()
-            scrollView.flexLayout.make.addChild(item)
+            scrollView.addSubview(item)
+            scrollView.yoga.make.addChild(item)
             item.titleLabel.text = "标题标题标题标题标题标题标题标题"
             item.descLabel.text = "简介简介简介简介简介简介简介简介"
         }
@@ -102,7 +102,7 @@ class SimpleExViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
-        scrollView.flexLayout.applyLayout(preservingOrigin: false, dimensionFlexibility: .flexibleHeight)
+        scrollView.yoga.applyLayout(preservingOrigin: false, dimensionFlexibility: .flexibleHeight)
     }
 
     override func didReceiveMemoryWarning() {

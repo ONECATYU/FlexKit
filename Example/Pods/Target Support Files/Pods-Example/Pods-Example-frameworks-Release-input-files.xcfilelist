@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh
+${BUILT_PRODUCTS_DIR}/FlexKit/FlexKit.framework
+${BUILT_PRODUCTS_DIR}/UITableView+FDTemplateLayoutCell/UITableView_FDTemplateLayoutCell.framework
+${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework

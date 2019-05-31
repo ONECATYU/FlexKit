@@ -1,6 +1,6 @@
 {
   "name": "FlexKit",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "summary": "FlexLayout,支持链式调用,虚拟div",
   "description": "*链式调用\n*虚拟div\n*基于YogaKit",
   "homepage": "https://github.com/ONECATYU/FlexKit",
@@ -16,11 +16,11 @@
   },
   "source": {
     "git": "https://github.com/ONECATYU/FlexKit.git",
-    "tag": "0.0.6"
+    "tag": "1.0.0"
   },
   "source_files": [
     "FlexKit",
-    "FlexKit/**/*.{h,m}"
+    "FlexKit/**/*.{h,m,swift}"
   ],
   "frameworks": [
     "UIKit",
@@ -28,8 +28,10 @@
   ],
   "requires_arc": true,
   "dependencies": {
-    "YogaKit": [
-
+    "Yoga": [
+      "~> 1.14.0"
     ]
-  }
+  },
+  "swift_versions": "5.0",
+  "swift_version": "5.0"
 }

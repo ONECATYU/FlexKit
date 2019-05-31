@@ -41,13 +41,13 @@ class FeedTableViewCell: UITableViewCell {
                 }
                 contentImgView.image = image;
                 let size = image?.size ?? .zero
-                contentImgView.flexLayout.make.size(size)
+                contentImgView.yoga.make.size(size)
             }
             userNameLabel.text = newValue?.username
             timeLabel.text = newValue?.time
             
-            ///将子视图标记为脏的(需要重新计算布局)
-            contentView.markSubViewsDirty()
+            ///将上面的视图标记一下,需要重新测试大小
+            contentView.yoga.markChildrenDirty()
         }
     }
     
@@ -57,24 +57,26 @@ class FeedTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.flexLayout.applyLayout(preservingOrigin: false)
+        contentView.yoga.applyLayout(preservingOrigin: false)
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         var layoutSize = size
-        layoutSize.height = CGFloat(YGUndefined);
-        let size = contentView.flexLayout.calculateLayout(with: layoutSize)
+        layoutSize.height = CGFloat(YGValueUndefined.value);
+        let size = contentView.yoga.calculateLayout(with: layoutSize)
         return size
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSubviewsLayout()
         fd_enforceFrameLayout = true
     }
     
     func setupSubviewsLayout() {
-        contentView.makeLayout { (make) in
+        contentView.makeFlexLayout { (make) in
+            make.flexDirection(.column)
+            
             make.padding(12)
             make.addChild(self.titleLabel)
             make.addChild(self.contentLabel).marginTop(10)
@@ -85,6 +87,11 @@ class FeedTableViewCell: UITableViewCell {
                 make.addChild(self.timeLabel)
             })
         }
+        ///根据node的树,将view添加到父视图上
+        contentView.yoga.adjustsViewHierarchy()
+        ///这里计算一下
+        ///防止在setFeed方法里面标记子视图需要重新测量大小时会崩溃
+        contentView.yoga.applyLayout(preservingOrigin: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
