@@ -89,9 +89,6 @@ class FeedTableViewCell: UITableViewCell {
         }
         ///根据node的树,将view添加到父视图上
         contentView.yoga.adjustsViewHierarchy()
-        ///这里计算一下
-        ///防止在setFeed方法里面标记子视图需要重新测量大小时会崩溃
-        contentView.yoga.applyLayout(preservingOrigin: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
