@@ -37,6 +37,10 @@ NS_ASSUME_NONNULL_END
 
 
 NS_ASSUME_NONNULL_BEGIN
+@interface WSFlexLayoutDiv (WSFlexLayoutMaker)
+- (void)makeFlexLayout:(WSFlexLayoutMakerBlock)block;
+@end
+
 @interface UIView (WSFlexLayoutMaker)
 - (void)makeFlexLayout:(WSFlexLayoutMakerBlock)block;
 @end

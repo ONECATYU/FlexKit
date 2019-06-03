@@ -44,6 +44,14 @@
 @end
 
 
+@implementation WSFlexLayoutDiv (WSFlexLayoutMaker)
+- (void)makeFlexLayout:(WSFlexLayoutMakerBlock)block {
+    if (block) {
+        block(self.yoga.make);
+    }
+}
+@end
+
 @implementation UIView (WSFlexLayoutMaker)
 - (void)makeFlexLayout:(WSFlexLayoutMakerBlock)block {
     if (block) {
