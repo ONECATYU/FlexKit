@@ -1,13 +1,8 @@
 
 Pod::Spec.new do |s|
   s.name         = "FlexKit"
-  s.version      = "1.0.0"
-  s.summary      = "FlexLayout,支持链式调用,虚拟div"
-  s.description  = <<-DESC
-                    *链式调用
-                    *虚拟div
-                    *基于YogaKit
-                   DESC
+  s.version      = "1.0.1"
+  s.summary      = "1.支持虚拟div,避免导致视图增多问题。2.支持scrollView contentSize。3.支持CALayer布局，UIView和CALayer混合布局。4.根据node树，UIView/CALayer自动添加到父视图。"
   s.homepage     = "https://github.com/ONECATYU/FlexKit"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "ONECATYU" => "786910875@qq.com" }
